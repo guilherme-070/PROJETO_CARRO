@@ -25,7 +25,7 @@
     </thead>
     <tbody>
 
-    @foreach ($data as $item )    
+    @foreach ($data as $item )
 
       <tr>
         <td>{{$item->id}}</td>
@@ -65,7 +65,7 @@
         </td>
 
 
-        
+
       </tr>
 
     @endforeach

@@ -17,14 +17,14 @@ class CreateCarrosTable extends Migration
             $table->id();
             $table->string('placa');
 
-            $table->unsignedBigInteger('modelos_id');
+            $table->unsignedBigInteger('modelos_id')->nullable();
             $table->foreign('modelos_id')->references('id')->on('modelos');
 
-            $table->unsignedBigInteger('estados_id');
+            $table->unsignedBigInteger('estados_id')->nullable();
             $table->foreign('estados_id')->references('id')->on('estados');
 
-            $table->unsignedBigInteger('colors_id');
-            $table->foreign('colors_id')->references('id')->on('colors');
+            $table->unsignedBigInteger('color_id')->nullable();
+            $table->foreign('color_id')->references('id')->on('colors');
 
             $table->softDeletes();
             $table->timestamps();

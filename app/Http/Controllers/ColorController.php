@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 
 class ColorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $rules = [
+        "name" => "required|min:2|max:30|unique:colors",
+    ];
 
+    private $messages =[
+        "required" => "O campo [:attribute] é obrigatório",
+         "unique" => "O campo [:attribute] deve ser único",
+        ];
     public function index()
     {
         $data = Color::All();
@@ -38,6 +40,7 @@ class ColorController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->rules, $this->messages);
 
         $color = new Color();
         $color->name = $request->name;
@@ -112,35 +115,6 @@ class ColorController extends Controller
         }
     }
 
-    public function graph(){
 
-        $carro = Color::with('carro')->orderBy('modelo-id')->get();
-        //marcas
-           $colordata= [
-            ["CARRO", "NÚMERO DE CORES"],
-           ];
-           $cont =1;
-           foreach($carro as $item){
-                $data[$cont] = [
-                    $item->name, count($item->carro)
-                ];
-                $cont++;
-           }
-           $colordata = json_encode($colordata);
 
-           /*$datacolors= [
-            ["MARCA", "NÚMERO DE MODELOS"],
-           ];
-           $cont =1;
-           foreach($color as $item){
-                $datacolors[$cont] = [
-                    $item->name, count($item->carro)
-                ];
-                $cont++;
-           }
-           $datacolors = json_encode($datacolors);*/
-
-        return view('home', compact(['colordata']));
-    
-}
 }

@@ -17,7 +17,7 @@ class Carro extends Model
 
 
     public function colors(){
-        return $this->belongsTo(Color::class);
+        return $this->belongsTo(Color::class, 'color_id');
     }
 
 

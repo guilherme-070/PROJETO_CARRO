@@ -10,11 +10,15 @@ use Illuminate\Http\Request;
 
 class ModeloController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $rules = [
+        "name" => "required|min:2|max:30|unique:marcas",
+        "marca" => "required",
+    ];
+
+    private $messages =[
+        "required" => "O campo [:attribute] é obrigatório",
+        "unique" => "O campo [:attribute] deve ser único",
+        ];
     public function index()
     {
         $data = Modelo::with(['marca'])->get();
@@ -40,6 +44,10 @@ class ModeloController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate($this->rules, $this->messages);
+
+
         $marca = Marca::find($request->marca);
 
         if(isset($marca)){

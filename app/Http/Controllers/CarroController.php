@@ -17,11 +17,15 @@ class CarroController extends Controller
     //qualque coisa alterada
     private $rules = [
         "placa"=>"required|min:8|max:8|unique:carros",
+        "modelo" => "required|exists:modelos,id",
+        "color"=>"required|exists:colors,id",
+        "estado" => "required|exists:estados,id",
     ];
 
     private $messages =[
         "required" => "O campo [:attribute] é obrigatório",
-        "unique" => "A placa deve ser única",
+        "unique" => "O campo [:attribute] deve ser único",
+        "exists" => "O [:attribute] selecionado não é válido",
         ];
     /**
      * Display a listing of the resource.
@@ -133,7 +137,7 @@ class CarroController extends Controller
         $carro = Carro::find($id);
         $modelo = Modelo::find($request->modelo);
         $estado = Estado::find($request->estado);
-        $color = Color::find($request->color);
+        $color= Color::find($request->color);
 
         if(isset($carro) && isset($modelo) && isset($estado) && isset($color)){
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Modelo;
 use App\Models\Marca;
 use App\Models\Estado;
@@ -12,17 +11,16 @@ use App\Models\Carro;
 
 class HomeController extends Controller
 {
-    public function graph(){
+    public function graph()
+    {
+        // Obtendo as marcas com seus respectivos modelos
+        $marca = Marca::with('modelo')->orderBy('name')->get();  // Certifique-se de que o relacionamento 'modelos' está correto
 
-        $carro = Marca::with('modelo')->orderBy('name')->get();
-        
-
-
-           $data= [
+        $data= [
             ["MARCA", "NÚMERO DE MODELOS"],
            ];
            $cont =1;
-           foreach($carro as $item){
+           foreach($marca as $item){
                 $data[$cont] = [
                     $item->name, count($item->modelo)
                 ];
@@ -30,42 +28,21 @@ class HomeController extends Controller
            }
            $data = json_encode($data);
 
-        //    $cores = Color::with('carro')->orderBy('name')->get();
+        // Obtendo os carros com suas respectivas cores
+        $color = Color::with('carros')->orderBy('name')->get();  // Certifique-se de que o relacionamento 'color' está correto
 
-        //    $cdata= [
-        //     ["MARCA", "NÚMERO DE MODELOS"],
-        //    ];
-        //    $cont =1;
-        //    foreach($cores as $item){
-        //         $cdata[$cont] = [
-        //             $item->name, count($item->carro)
-        //         ];
-        //         $cont++;
-        //    }
-        //    $cdata = json_encode($cdata);
-           
-           /*$carrosPorCor = Carro::with('color') // Supondo que a relação com a cor está definida
-            ->select('color_id', DB::raw('count(*) as total'))
-            ->groupBy('color_id')
-            ->get();
-
-        $dataCor = [
-            ["COR", "NÚMERO DE CARROS"],
+        $datacolors = [
+            ["PLACA", "COR"],
         ];
-        foreach ($carrosPorCor as $item) {
-            $cor = Color::find($item->color_id); // Supondo que você tem uma relação de cores
-            if ($cor) {
-                $dataCor[] = [
-                    $cor->name, $item->total
-                ];
-            }
+        $cont = 1;
+        foreach ($color as $item) {
+            $datacolors[$cont] = [
+                $item->name, count($item->carros) // Exibindo o nome da cor associada ao carro
+            ];
+            $cont++;
         }
-        $dataCor = json_encode($dataCor);*/
+        $datacolors = json_encode($datacolors);
 
-           
-
-        return view('home', compact(['data']));
-
+        return view('home', compact(['data', 'datacolors']));
     }
-
 }

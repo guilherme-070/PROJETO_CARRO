@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="row">
     <div class="col text-center" id="barra" style="width: 420px; height: 280px;"></div>
     <div class="col text-center" id="pizza" style="width: 420px; height: 280px;"></div>
@@ -14,8 +15,9 @@
 
     <script type="text/javascript">
 
-    var data_graph = <?php echo $data;?>;
-   
+    var datacolors_graph = <?php echo $datacolors;?>;
+
+
 
     google.charts.load('current', {'packages':['corechart']})
     google.charts.setOnLoadCallback(drawChart);
@@ -25,10 +27,11 @@
     // Dados do Gráfico
     let data = google.visualization.arrayToDataTable(data_graph);
 
+
     // GRÁFICO DE BARRAS
     // Opções de Configuração
 
-    options = {
+    let barOptions = {
     title: 'TOTAL DE MODELOS / MARCA',
     colors: ['#198754'],
     legend: 'none',
@@ -43,27 +46,27 @@
     };
 
     // DESENHA GRÁFICO DE BARRAS
-    chart = new google.visualization.BarChart(document.getElementById('barra'));
-    chart.draw(data, options);
+   Chart = new google.visualization.BarChart(document.getElementById('barra'));
+    Chart.draw(data, options);
 
     // ================================================= //
     // GRÁFICO DE PIZZA
     // Opções de Configuração
-    //data = google.visualization.arrayToDataTable(data_cor);
 
-    options = {
-        title: 'PERCENTUAL DE CURSOS / EIXO',
+
+     options = {
+        title: 'TOTAL DE CARROS/ COR',
         is3D: true
     };
 
     // DESENHA GRÁFICO DE PIZZA
-    chart = new google.visualization.PieChart(document.getElementById('pizza'));
-    chart.draw(data, options);
+   Chart = new google.visualization.PieChart(document.getElementById('pizza'));
+    Chart.draw(data, options);
 
 
      // GRÁFICO DE PIZZA
     // Opções de Configuração
-    options = {
+   options = {
         title: 'PERCENTUAL DE CURSOS / EIXO',
         is3D: true
     };
@@ -97,7 +100,8 @@
     // ================================================= //
 
 
-    }
+
+   }
 </script>
 
 @endsection

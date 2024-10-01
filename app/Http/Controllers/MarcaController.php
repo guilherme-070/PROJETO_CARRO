@@ -9,11 +9,14 @@ use App\Models\Modelo;
 
 class MarcaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $rules = [
+        "name" => "required|min:2|max:30|unique:marcas",
+    ];
+
+    private $messages =[
+        "required" => "O campo [:attribute] é obrigatório",
+        "unique" => "O campo [:attribute] deve ser único",
+        ];
     public function index()
     {
         $data = Marca::with('modelo')->get();
@@ -38,7 +41,11 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        
+
+
+        $request->validate($this->rules, $this->messages);
+
+
         $marca = new Marca();
         $marca->name = $request->name;
         $marca->save();
@@ -112,35 +119,5 @@ class MarcaController extends Controller
     }
     }
 
-    public function graph(){
 
-            $carro = Marca::with('modelo')->orderBy('name')->get();
-            //marcas
-               $data= [
-                ["MARCA", "NÚMERO DE MODELOS"],
-               ];
-               $cont =1;
-               foreach($carro as $item){
-                    $data[$cont] = [
-                        $item->name, count($item->modelo)
-                    ];
-                    $cont++;
-               }
-               $data = json_encode($data);
-    
-               /*$datacolors= [
-                ["MARCA", "NÚMERO DE MODELOS"],
-               ];
-               $cont =1;
-               foreach($color as $item){
-                    $datacolors[$cont] = [
-                        $item->name, count($item->carro)
-                    ];
-                    $cont++;
-               }
-               $datacolors = json_encode($datacolors);*/
-
-            return view('home', compact(['data']));
-        
-    }
 }
