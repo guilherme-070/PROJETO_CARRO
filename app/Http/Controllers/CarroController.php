@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 class CarroController extends Controller
 {
 
+    //qualque coisa alterada
     private $rules = [
         "placa"=>"required|min:8|max:8|unique:carros",
     ];
